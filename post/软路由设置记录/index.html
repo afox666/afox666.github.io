@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  
+  <title>软路由设置记录 - Focallog</title>
+
+  
+  
+  <meta name="description" content="软路由设置记录 最近折腾了下软路由的设置，我的网络入口来自于华为的移动路由，套餐是天际通卡，U1S1，华为这个天际通速度真的不错。
+单臂路由或者说旁路由是R2C，主要拿来跑passwall。
+我不想破坏主路由的设置，以及不想单臂路由崩掉之后连接主路由的设备上不了网，因此采用的是主路由DHCP，旁路由关闭DHCP的模式，要使用passwall的终端将网关设置成旁路由ip即可。
+主路由设置 主路由这边不需要进行任何修改，一切正常设置，保证能正常进行DHCP即可
+单臂路由（旁路由）设置 单臂路由LAN口连接主路由LAN口，在主路由侧固定单臂路由的ip地址。 配置好对应的ip，网关指向主路由，设置关闭DHCP，我这边刷的是OPENWRT系统，所以还需要额外关闭LAN口的桥接。 这里要特别注意DNS也要设置成主路由ip。
+passwall设置 首先正常导入订阅，然后在配置dns时选择一个国外的dns服务器即可
+终端设置 手动配置ip，网关指向单臂路由ip，dns设置成一个国内的dns和一个国外的dns，当然多设置几个也没关系，但是必须要有国内和国外的dns" />
+  <meta name="author" content="" />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="https://www.focallog.com/app.min.css" />
+
+  
+
+  
+  <link rel="preload" as="image" href="https://www.focallog.com/theme.png" />
+
+  
+  <link rel="preload" as="image" href="https://www.focallog.com/github.svg" />
+  
+
+  
+  <link rel="icon" href="https://www.focallog.com/favicon.ico" />
+  <link rel="apple-touch-icon" href="https://www.focallog.com/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.94.2" />
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="软路由设置记录" />
+<meta property="og:description" content="软路由设置记录 最近折腾了下软路由的设置，我的网络入口来自于华为的移动路由，套餐是天际通卡，U1S1，华为这个天际通速度真的不错。
+单臂路由或者说旁路由是R2C，主要拿来跑passwall。
+我不想破坏主路由的设置，以及不想单臂路由崩掉之后连接主路由的设备上不了网，因此采用的是主路由DHCP，旁路由关闭DHCP的模式，要使用passwall的终端将网关设置成旁路由ip即可。
+主路由设置 主路由这边不需要进行任何修改，一切正常设置，保证能正常进行DHCP即可
+单臂路由（旁路由）设置 单臂路由LAN口连接主路由LAN口，在主路由侧固定单臂路由的ip地址。 配置好对应的ip，网关指向主路由，设置关闭DHCP，我这边刷的是OPENWRT系统，所以还需要额外关闭LAN口的桥接。 这里要特别注意DNS也要设置成主路由ip。
+passwall设置 首先正常导入订阅，然后在配置dns时选择一个国外的dns服务器即可
+终端设置 手动配置ip，网关指向单臂路由ip，dns设置成一个国内的dns和一个国外的dns，当然多设置几个也没关系，但是必须要有国内和国外的dns" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://www.focallog.com/post/%E8%BD%AF%E8%B7%AF%E7%94%B1%E8%AE%BE%E7%BD%AE%E8%AE%B0%E5%BD%95/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-03-19T01:09:28+08:00" />
+<meta property="article:modified_time" content="2022-03-19T01:09:28+08:00" />
+
+
+  
+  <meta itemprop="name" content="软路由设置记录">
+<meta itemprop="description" content="软路由设置记录 最近折腾了下软路由的设置，我的网络入口来自于华为的移动路由，套餐是天际通卡，U1S1，华为这个天际通速度真的不错。
+单臂路由或者说旁路由是R2C，主要拿来跑passwall。
+我不想破坏主路由的设置，以及不想单臂路由崩掉之后连接主路由的设备上不了网，因此采用的是主路由DHCP，旁路由关闭DHCP的模式，要使用passwall的终端将网关设置成旁路由ip即可。
+主路由设置 主路由这边不需要进行任何修改，一切正常设置，保证能正常进行DHCP即可
+单臂路由（旁路由）设置 单臂路由LAN口连接主路由LAN口，在主路由侧固定单臂路由的ip地址。 配置好对应的ip，网关指向主路由，设置关闭DHCP，我这边刷的是OPENWRT系统，所以还需要额外关闭LAN口的桥接。 这里要特别注意DNS也要设置成主路由ip。
+passwall设置 首先正常导入订阅，然后在配置dns时选择一个国外的dns服务器即可
+终端设置 手动配置ip，网关指向单臂路由ip，dns设置成一个国内的dns和一个国外的dns，当然多设置几个也没关系，但是必须要有国内和国外的dns"><meta itemprop="datePublished" content="2022-03-19T01:09:28+08:00" />
+<meta itemprop="dateModified" content="2022-03-19T01:09:28+08:00" />
+<meta itemprop="wordCount" content="14">
+<meta itemprop="keywords" content="" />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="软路由设置记录"/>
+<meta name="twitter:description" content="软路由设置记录 最近折腾了下软路由的设置，我的网络入口来自于华为的移动路由，套餐是天际通卡，U1S1，华为这个天际通速度真的不错。
+单臂路由或者说旁路由是R2C，主要拿来跑passwall。
+我不想破坏主路由的设置，以及不想单臂路由崩掉之后连接主路由的设备上不了网，因此采用的是主路由DHCP，旁路由关闭DHCP的模式，要使用passwall的终端将网关设置成旁路由ip即可。
+主路由设置 主路由这边不需要进行任何修改，一切正常设置，保证能正常进行DHCP即可
+单臂路由（旁路由）设置 单臂路由LAN口连接主路由LAN口，在主路由侧固定单臂路由的ip地址。 配置好对应的ip，网关指向主路由，设置关闭DHCP，我这边刷的是OPENWRT系统，所以还需要额外关闭LAN口的桥接。 这里要特别注意DNS也要设置成主路由ip。
+passwall设置 首先正常导入订阅，然后在配置dns时选择一个国外的dns服务器即可
+终端设置 手动配置ip，网关指向单臂路由ip，dns设置成一个国内的dns和一个国外的dns，当然多设置几个也没关系，但是必须要有国内和国外的dns"/>
+
+  
+  
+</head>
+
+
+  <body class="not-ready" data-menu="false">
+    <header class="header">
+  
+  <p class="logo">
+    <a class="site-name" href="https://www.focallog.com/">Focallog</a><a class="btn-dark"></a>
+  </p>
+  
+
+  <script>
+    let bodyClx = document.body.classList;
+    let btnDark = document.querySelector('.btn-dark');
+    let sysDark = window.matchMedia('(prefers-color-scheme: dark)');
+    let darkVal = localStorage.getItem('dark');
+
+    let setDark = (isDark) => {
+      bodyClx[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark ? 'yes' : 'no');
+    };
+
+    setDark(darkVal ? darkVal === 'yes' : sysDark.matches);
+    requestAnimationFrame(() => bodyClx.remove('not-ready'));
+
+    btnDark.addEventListener('click', () => setDark(!bodyClx.contains('dark')));
+    sysDark.addEventListener('change', (event) => setDark(event.matches));
+  </script>
+
+  
+  
+
+  
+  <nav class="social">
+    
+    <a
+      class="github"
+      style="--url: url(./github.svg)"
+      href="https://github.com/afox666"
+      target="_blank"
+    ></a>
+    
+  </nav>
+  
+</header>
+
+
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-title">
+    <p>
+      <time>Mar 19, 2022</time>
+      
+    </p>
+    <h1>软路由设置记录</h1>
+  </header>
+  <section class="post-content"><h1 id="软路由设置记录">软路由设置记录</h1>
+<p>最近折腾了下软路由的设置，我的网络入口来自于华为的移动路由，套餐是天际通卡，U1S1，华为这个天际通速度真的不错。</p>
+<p>单臂路由或者说旁路由是R2C，主要拿来跑passwall。</p>
+<p>我不想破坏主路由的设置，以及不想单臂路由崩掉之后连接主路由的设备上不了网，因此采用的是主路由DHCP，旁路由关闭DHCP的模式，要使用passwall的终端将网关设置成旁路由ip即可。</p>
+<h2 id="主路由设置">主路由设置</h2>
+<p>主路由这边不需要进行任何修改，一切正常设置，保证能正常进行DHCP即可</p>
+<h2 id="单臂路由旁路由设置">单臂路由（旁路由）设置</h2>
+<p>单臂路由LAN口连接主路由LAN口，在主路由侧固定单臂路由的ip地址。
+配置好对应的ip，网关指向主路由，设置关闭DHCP，我这边刷的是OPENWRT系统，所以还需要额外关闭LAN口的桥接。
+这里要特别注意DNS也要设置成主路由ip。</p>
+<h2 id="passwall设置">passwall设置</h2>
+<p>首先正常导入订阅，然后在配置dns时选择一个国外的dns服务器即可</p>
+<h2 id="终端设置">终端设置</h2>
+<p>手动配置ip，网关指向单臂路由ip，dns设置成一个国内的dns和一个国外的dns，当然多设置几个也没关系，但是必须要有国内和国外的dns</p>
+</section>
+
+  
+  
+
+  
+  
+  
+  <nav class="post-nav">
+     
+    <a class="next" href="https://www.focallog.com/post/first/"><span>First</span><span>→</span></a>
+    
+  </nav>
+  
+
+  
+  
+  <div id="disqus_thread" class="post-comments"></div>
+  <script>
+    var disqusShortname = 'YOUR_DISQUS_SHORTNAME';
+    var script = document.createElement('script');
+    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', +new Date());
+    document.head.appendChild(script);
+  </script>
+  
+</article>
+
+</main>
+
+    <footer class="footer">
+  <p>&copy; 2022 <a href="https://www.focallog.com/">Focallog</a></p>
+  <p>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</p>
+  <p>
+    <a href="https://github.com/nanxiaobei/hugo-paper" rel="noopener" target="_blank">Paper 5.1</a>
+  </p>
+</footer>
+
+  </body>
+</html>
