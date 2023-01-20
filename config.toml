@@ -1,9 +1,0 @@
-baseURL = 'https://www.focallog.com/'
-languageCode = 'en-us'
-title = 'Focallog'
-theme = "paper"
-disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # add disqus comments
-
-[params]
-  disableHLJS = true                         # don't use highlight.js
-  github = 'afox666'                  # github.com/YOUR_GITHUB_ID
