@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>perf_build_and_use - Focallog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=生活,博客>
+  
+    <meta name="description" content="cpp and linux">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="Focallog" type="application/atom+xml">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">Focallog</a>
+    <div class="subtitle"></div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">perf_build_and_use</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2023-01-22</span>
+  </div>
+  <div class="post-content">
+    <h1 id="perf编译与使用"><a href="#perf编译与使用" class="headerlink" title="perf编译与使用"></a>perf编译与使用</h1><ul>
+<li>perf是一个linux内核自带强大的性能分析工具,不过有些系统里似乎不会将perf编译进去  </li>
+<li>在Linux 2.6.31版本引入，至今tool&#x2F;perf目录拥有1万多个提交，是内核开发中最活跃的几个领域之一。</li>
+</ul>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><pre><code>- 在大多数docker镜像中,似乎都没有带上这个强大的工具,所以需要自己手动编译(其实也能用apt安装,但是我没有成功过).  
+- 首先需要知道自己系统的内核版本号, 输入`uname -r` 命令就能知道自己的内核版本号,然后根据内核版本号下载对应的linux源码,网址为: [linux kernel](https://cdn.kernel.org/pub/linux/kernel/).  
+- 安装一些依赖:    
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">apt install flex</span><br><span class="line">apt install bison</span><br><span class="line">apt install zlib1g zlib1g-dev</span><br><span class="line">apt install libelf-dev</span><br><span class="line">apt install elfutils</span><br><span class="line">apt install systemtap-sdt-dev</span><br><span class="line">apt install libssl-dev</span><br><span class="line">apt install libunwind</span><br><span class="line">apt install libdw-dev</span><br><span class="line">apt install libcap-dev</span><br><span class="line">apt install libzstd-dev</span><br><span class="line">apt install binutils-dev</span><br><span class="line">apt install libiberty-dev</span><br><span class="line">apt install zlib-static</span><br><span class="line">apt install libslang2-dev</span><br><span class="line">apt install libunwind-dev</span><br><span class="line">apt install libperl-dev</span><br><span class="line">apt install libnuma-dev</span><br><span class="line">apt install libbabeltrace</span><br><span class="line">apt install libbabeltrace-dev</span><br><span class="line">apt install libbabeltrace-ctf-dev</span><br></pre></td></tr></table></figure>
+- 然后进入下载的linux kernel源码目录编译安装perf  
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd tools/perf</span><br><span class="line">make -j # 这一步请注意编译日志输出的perf的各个特性是否都开启了,如果没开启说明上面依赖安装不对</span><br><span class="line">make install</span><br><span class="line">cp perf /usr/bin</span><br></pre></td></tr></table></figure>
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>未完待续</p>
+
+  </div>
+  <div class="post-footer">
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2023
+  <span class="author">
+    afox
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
