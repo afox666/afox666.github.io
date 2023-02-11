@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>弱符号.md - Focallog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=生活,博客>
+  
+    <meta name="description" content="cpp and linux">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+    <link rel="alternate" href="/atom.xml " title="Focallog" type="application/atom+xml">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">Focallog</a>
+    <div class="subtitle"></div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">主页</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">归档</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">弱符号.md</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2023-02-12</span>
+  </div>
+  <div class="post-content">
+    <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>弱符号属于编译技术中的概念，是<strong>链接器</strong>在生成ELF过程中使用的一种特殊属性符号。</p>
+<p>默认情况下，如果没有特别声明，目标文件里面的符号都是强符号。在链接过程中，<strong>一个强符号会优先于一个同名的弱符号</strong>。相比之下，两个同名强符号一起链接会出现链接错误。<strong>当链接一个可执行文件，弱符号可以不定义</strong>。但对于强符号，如果没有定义，连接器会产生一个“符号未定义”错误 （undefined symbol）。使用弱符号的目的是，当不确定这个符号是否被定义的情况下，链接器也可以成功链接出ELF文件，适用于某些模块还未实现的情况下，其他模块的先行调试。 弱符号在C语言和C++语言的规范里面没有被提及，所以使用弱符号的代码，移植性不是非常好。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>有两种方式定义一个弱符号:</p>
+<ul>
+<li><code>#pragma weak</code>:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function declaration</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> weak power2</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">power2</span><span class="params">(<span class="type">int</span> x)</span>;</span><br></pre></td></tr></table></figure></li>
+<li><code>__attribute__ ((weak))</code>:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function declaration</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> __attribute__((weak)) power2(<span class="type">int</span> x);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// or</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">power2</span><span class="params">(<span class="type">int</span> x)</span> __<span class="title function_">attribute__</span><span class="params">((weak))</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// variable declaration;</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> __attribute__((weak)) global_var;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>由于弱符号可以被强符号覆盖，所以借此实现类似多态的机制，例如将某个库函数用弱符号定义，那么这个库的用户可以自己定制开发一个强符号的同名函数</p>
+<p>正因为如此，在C和C++语言中，为了实现库的二进制向后兼容性，许多地方都用到了弱符号的定义。</p>
+<p>另外，对于C语言而言，未初始化的全局变量是弱符号，如果定义了多个同名的全局变量，那么编译器会选择其中的任意一个，而C++中未初始化的全局变量会被编译器赋上一个默认的值，所以在C++中未初始化的全局变量不是弱符号，就不会出现这种问题。</p>
+
+  </div>
+  <div class="post-footer">
+    
+
+    <a href="#top" class="top">返回顶部</a>
+  </div>
+</article>
+<footer>
+  &copy; 2023
+  <span class="author">
+    afox
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
