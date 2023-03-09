@@ -41,4 +41,19 @@ tags:
     cp perf /usr/bin
     ```
 ## 使用
-未完待续
+``` bash
+# 记录所有进程的耗时情况(函数的调用次数、热点函数...)
+perf record -a
+
+# 根据进程pid记录某个进程的耗时情况
+perf record -p $PID
+
+# 记录60s的进程数据
+perf record -a sleep 60
+
+# 记录程序调用堆栈
+perf record -a -g
+
+# 实时追踪当前系统的cpu使用情况
+perf top
+```
